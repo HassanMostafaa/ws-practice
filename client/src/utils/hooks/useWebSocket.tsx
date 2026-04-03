@@ -25,17 +25,11 @@ export const useWebSocket = (url: string) => {
       }
     };
 
-    ws.onclose = () => {
-      console.log("disconnected");
-    };
-
     ws.onerror = (err) => {
       console.error(err);
     };
 
-    return () => {
-      ws.close();
-    };
+    return () => ws.close();
   }, [url]);
 
   const send = (data: unknown) => {

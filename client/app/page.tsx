@@ -1,5 +1,5 @@
 import HealthCheck from "@/components/health-check/HealthCheck";
-import { WebSocketTest } from "@/components/ws-test/WebSocketTest";
+import { WSController } from "@/components/ws-controller/WSController";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <HealthCheck />
 
       {/* WEBSOCKET TEST */}
-      <WebSocketTest />
+      <WSController />
     </main>
   );
 }

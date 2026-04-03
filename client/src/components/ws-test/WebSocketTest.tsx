@@ -86,7 +86,7 @@ export const WebSocketTest = () => {
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="space-y-4 p-4 max-h-[60vh] overflow-auto border border-white rounded-2xl max-w-100 ms-auto"
+      className="space-y-4 p-4 max-h-[60vh] overflow-auto border border-white rounded-2xl max-w-100"
     >
       <div className="border p-2 bg-gray-200 border-gray-500 text-black rounded-lg">
         {message}

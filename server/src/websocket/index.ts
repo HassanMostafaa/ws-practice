@@ -50,5 +50,9 @@ export const initWebSocket = (server: HttpServer) => {
         }),
       );
     });
+
+    socket.on("close", () => {
+      console.log("Client disconnected");
+    });
   });
 };
