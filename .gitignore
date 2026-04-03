@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# client
+client/node_modules
+client/.next
+client/out
+client/package-lock.json
+client/yarn.lock
+
+# server
+server/node_modules
+server/dist
+server/yarn.lock
+
+# env
+.env
+.env.local
+
+# logs
+*.log
