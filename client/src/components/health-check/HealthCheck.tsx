@@ -1,7 +1,7 @@
 import { getServerHealth } from "@/service/health.service";
 
 export default async function HealthCheck() {
-  const data = await getServerHealth({ fail: true });
+  const data = await getServerHealth({});
   console.log("Health check data:", data);
 
   return (
