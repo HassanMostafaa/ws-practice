@@ -3,10 +3,12 @@ import { ApiResponse } from "@/utils/types";
 type THealthCheckProps = { fail?: boolean };
 export const getServerHealth = async (
   props: THealthCheckProps,
-): Promise<ApiResponse> => {
+): Promise<ApiResponse<null>> => {
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+
     const res = await fetch(
-      process.env.API_URL + `/health?fail=${props.fail || false}`,
+      `http://${baseUrl}/health?fail=${props.fail || false}`,
     );
 
     const data = await res.json();

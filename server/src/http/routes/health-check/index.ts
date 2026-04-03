@@ -16,7 +16,7 @@ healthCheckRoute.get(
     }
 
     return res.status(200).json({
-      message: "API is running/healthy",
+      message: "✅ HTTP Protocol API is running and healthy",
       status: "success",
     });
   },
