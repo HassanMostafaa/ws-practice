@@ -1,9 +1,9 @@
 import { Router, Request, Response } from "express";
 import { ApiResponse } from "@/types/api";
 
-const healthCheckRoute = Router();
+const healthCheckRouter = Router();
 
-healthCheckRoute.get(
+healthCheckRouter.get(
   "/health",
   (req: Request, res: Response<ApiResponse<null>>) => {
     const fail = req.query.fail === "true";
@@ -22,4 +22,4 @@ healthCheckRoute.get(
   },
 );
 
-export default healthCheckRoute;
+export default healthCheckRouter;

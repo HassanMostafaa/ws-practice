@@ -1,5 +1,5 @@
 export type ApiResponse<T = unknown> = {
-  message: string;
+  message?: string;
   data?: T;
-  status?: "success" | "error";
+  status: "success" | "error";
 };

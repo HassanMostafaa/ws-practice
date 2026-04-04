@@ -110,7 +110,7 @@ export const WebSocketTest = () => {
         <button
           className="p-2 rounded-lg border-white border active:opacity-70 cursor-pointer"
           onClick={() => {
-            send({ message: inputValue });
+            send({ type: "chat-user", message: inputValue });
             setInputValue("");
           }}
         >
