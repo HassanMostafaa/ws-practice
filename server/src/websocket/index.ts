@@ -22,6 +22,7 @@ export const initWebSocket = (server: HttpServer) => {
     socket.on("message", (payload) => {
       const resolvedPayload =
         typeof payload === "string" ? payload : payload.toString();
+
       messageRouter(socket, resolvedPayload);
     });
 

@@ -12,7 +12,10 @@
     "dev": "tsx src/index.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/index.js",
-    "dev:watch": "tsx watch src/index.ts"
+    "dev:watch": "tsx watch src/index.ts",
+    "db:seed": "psql -d first_db -f db/seed/index.sql",
+    "db:schema": "psql -d first_db -f db/schema/index.sql",
+    "db:reset": "psql -d first_db -f db/schema/index.sql && psql -d first_db -f db/seed/index.sql"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

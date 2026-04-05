@@ -3,19 +3,20 @@ import { ApiResponse } from "@/types/api";
 
 const serverLocationRouter = Router();
 
-interface IServerLocation {
-  Country: string;
-  City: string;
-}
-
 serverLocationRouter.get(
   "/server-location",
-  (req: Request, res: Response<ApiResponse<IServerLocation>>) => {
+  (
+    req: Request,
+    res: Response<
+      ApiResponse<{
+        location: string;
+      }>
+    >,
+  ) => {
     return res.status(200).json({
       status: "success",
       data: {
-        Country: "United States",
-        City: "San Francisco",
+        location: "USA, New York",
       },
     });
   },

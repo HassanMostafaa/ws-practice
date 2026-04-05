@@ -19,6 +19,7 @@ const handlers: HandlerMap = {
 
 export const messageRouter = (socket: WebSocket, payload: string) => {
   const data = JSON.parse(payload) as ClientMessage;
+
   const handler = handlers[data.type];
 
   if (!handler) {

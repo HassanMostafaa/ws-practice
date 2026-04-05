@@ -10,7 +10,10 @@ export const WebSocketTest = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const wasAtBottom = useRef(true);
-  const [inputValue, setInputValue] = useState("");
+  const [chatValue, setChatValue] = useState<{
+    type: "chat-user";
+    message: string;
+  } | null>(null);
 
   const isAtBottom = (el: HTMLDivElement) => {
     return el.scrollHeight - el.scrollTop - el.clientHeight <= 1;
@@ -88,9 +91,11 @@ export const WebSocketTest = () => {
       onScroll={handleScroll}
       className="space-y-4 p-4 max-h-[60vh] overflow-auto border border-white rounded-2xl max-w-100"
     >
-      <div className="border p-2 bg-gray-200 border-gray-500 text-black rounded-lg">
-        {message}
-      </div>
+      {message && (
+        <div className="border p-2 bg-gray-200 border-gray-500 text-black rounded-lg">
+          {message}
+        </div>
+      )}
       {renderContent()}
 
       <div className="flex flex-col gap-2">
@@ -98,20 +103,22 @@ export const WebSocketTest = () => {
           type="text"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              send({ message: inputValue });
-              setInputValue("");
+              send(chatValue);
+              setChatValue(null);
             }
           }}
           placeholder="Enter ur message"
           className="border border-white p-2 h-10 rounded-lg"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={chatValue?.message ?? ""}
+          onChange={(e) =>
+            setChatValue({ type: "chat-user", message: e.target.value })
+          }
         />
         <button
           className="p-2 rounded-lg border-white border active:opacity-70 cursor-pointer"
           onClick={() => {
-            send({ type: "chat-user", message: inputValue });
-            setInputValue("");
+            send(chatValue);
+            setChatValue(null);
           }}
         >
           Send
