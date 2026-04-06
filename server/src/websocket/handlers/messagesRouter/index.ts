@@ -19,8 +19,9 @@ const handlers: HandlerMap = {
 
 export const messageRouter = (socket: WebSocket, payload: string) => {
   const data = JSON.parse(payload) as ClientMessage;
+  if (!data.type) return;
 
-  const handler = handlers[data.type];
+  const handler = handlers?.[data?.type];
 
   if (!handler) {
     console.warn("Unknown type:", data.type);
