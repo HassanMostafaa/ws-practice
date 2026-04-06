@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export const WebSocketTest = () => {
   const { message, stream, send } = useWebSocket(
-    `ws://${process.env.NEXT_PUBLIC_API_URL}`,
+    `wss://${process.env.NEXT_PUBLIC_API_URL}`,
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
