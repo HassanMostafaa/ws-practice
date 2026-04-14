@@ -5,10 +5,12 @@ import { WSController } from "@/components/ws-controller/WSController";
 export default function Home() {
   return (
     <main className="container mx-auto py-10 space-y-10 max-md:px-4">
-      <HealthCheck />
+      <div className="flex md:flex-row flex-wrap gap-2">
+        <HealthCheck />
 
-      {/* SERVER LOCATION  */}
-      <ServerLocation />
+        {/* SERVER LOCATION  */}
+        <ServerLocation />
+      </div>
 
       {/* WEBSOCKET TEST */}
       <WSController />
