@@ -9,7 +9,7 @@ const toneClassName: Record<WebSocketMessageTone, string> = {
   connection: "border-emerald-300/40 bg-emerald-300/10 text-emerald-50",
   notification: "border-amber-300/40 bg-amber-300/10 text-amber-50",
   unknown: "border-zinc-300/40 bg-zinc-300/10 text-zinc-50",
-  user: "border-white bg-white text-black",
+  user: " bg-gray-100/70 text-black",
 };
 
 export const WebSocketMessage = ({ message }: WebSocketMessageProps) => {
@@ -20,7 +20,7 @@ export const WebSocketMessage = ({ message }: WebSocketMessageProps) => {
       } ${toneClassName[message.tone]}`}
     >
       <p className="text-xs font-semibold uppercase">{message.label}</p>
-      <p className="mt-1 whitespace-pre-wrap break-words text-sm">
+      <p className="mt-1 whitespace-pre-wrap wrap-break-word text-sm">
         {message.message || "No message body"}
       </p>
     </article>
