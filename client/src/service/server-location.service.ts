@@ -1,12 +1,12 @@
 import { ApiResponse } from "@/utils/types";
+import { getEndpointWithProtocol } from "./helpers";
 
 export const getServerLocation = async (): Promise<
   ApiResponse<{ location: string }>
 > => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-
-    const res = await fetch(`http://${baseUrl}/server-location`);
+    const endPoint = getEndpointWithProtocol();
+    const res = await fetch(`${endPoint}/server-location`);
 
     const data = await res.json();
 

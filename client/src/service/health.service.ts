@@ -1,15 +1,14 @@
 import { ApiResponse } from "@/utils/types";
+import { getEndpointWithProtocol } from "./helpers";
 
 type THealthCheckProps = { fail?: boolean };
 export const getServerHealth = async (
   props: THealthCheckProps,
 ): Promise<ApiResponse<null>> => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const endPoint = getEndpointWithProtocol();
 
-    const res = await fetch(
-      `http://${baseUrl}/health?fail=${props.fail || false}`,
-    );
+    const res = await fetch(`${endPoint}/health?fail=${props.fail || false}`);
 
     const data = await res.json();
 

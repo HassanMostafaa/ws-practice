@@ -8,11 +8,15 @@ type PaginationProps = {
 };
 
 const getVisiblePages = (pageNumber: number, totalPages: number) => {
-  const firstPage = Math.max(1, pageNumber - 1);
-  const lastPage = Math.min(totalPages, firstPage + 2);
+  const maxVisiblePages = 4;
+  const visiblePageCount = Math.min(totalPages, maxVisiblePages);
+  const firstPage = Math.min(
+    Math.max(1, pageNumber - 2),
+    totalPages - visiblePageCount + 1,
+  );
 
   return Array.from(
-    { length: lastPage - firstPage + 1 },
+    { length: visiblePageCount },
     (_, index) => firstPage + index,
   );
 };

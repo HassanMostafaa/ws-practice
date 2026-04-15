@@ -2,6 +2,8 @@
 
 import { Pagination } from "@/components/pagination/Pagination";
 import { NoteCard } from "./components/NoteCard";
+import { NoteCardsSkeleton } from "./components/NoteCardSkeleton";
+import { NoteDetailsModal } from "./components/NoteDetailsModal";
 import { NoteDialog } from "./components/NoteDialog";
 import { NotesPaginationDetails } from "./components/NotesPaginationDetails";
 import { NotesHeader } from "./components/NotesHeader";
@@ -16,6 +18,8 @@ type NotesProps = {
 export const Notes = ({ serverData }: NotesProps) => {
   const {
     areAllNotesSelected,
+    closeDetailsDialog,
+    detailsNote,
     errorMessage,
     handleDeleteSelectedNotes,
     handleDeselectAllNotes,
@@ -28,6 +32,7 @@ export const Notes = ({ serverData }: NotesProps) => {
     isLoading,
     notes,
     openCreateDialog,
+    openDetailsDialog,
     openEditDialog,
     pageNumber,
     pageSize,
@@ -74,10 +79,7 @@ export const Notes = ({ serverData }: NotesProps) => {
       ) : null}
 
       {isLoading ? (
-        <NotesStateMessage
-          message="Fetching the selected page from the server."
-          title="Loading notes"
-        />
+        <NoteCardsSkeleton />
       ) : notes.length === 0 ? (
         <NotesStateMessage
           message="There are no notes on this page yet."
@@ -91,11 +93,23 @@ export const Notes = ({ serverData }: NotesProps) => {
               key={note.id}
               note={note}
               onEdit={openEditDialog}
+              onOpenDetails={openDetailsDialog}
               onToggleSelected={toggleSelectedNoteId}
             />
           ))}
         </div>
       )}
+
+      {detailsNote ? (
+        <NoteDetailsModal
+          note={detailsNote}
+          onClose={closeDetailsDialog}
+          onEdit={(noteId) => {
+            closeDetailsDialog();
+            openEditDialog(noteId);
+          }}
+        />
+      ) : null}
 
       {isDialogOpen ? (
         <NoteDialog

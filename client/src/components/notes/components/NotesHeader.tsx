@@ -22,8 +22,8 @@ export const NotesHeader = ({
   selectedNoteCount,
 }: NotesHeaderProps) => {
   return (
-    <div className="flex flex-wrap items-start justify-between gap-4 rounded-lg  border-white/25 bg-black/30 px-4 py-5">
-      <div className="max-w-2xl">
+    <div className="flex flex-wrap items-start justify-between gap-4 rounded-lg  border-white/25 bg-black/30 ">
+      {/* <div className="max-w-2xl">
         <p className="text-xs font-semibold uppercase text-white/60">
           Dummy notes
         </p>
@@ -34,9 +34,9 @@ export const NotesHeader = ({
           Local notes for now. Create, edit, select, and delete notes in the
           client while the server-side note endpoints are still being wired up.
         </p>
-      </div>
+      </div> */}
 
-      <div className="flex flex-wrap justify-end gap-2">
+      <div className="flex flex-wrap ms-auto justify-end gap-2">
         {hasSelectedNotes ? (
           <>
             <NoteButton
@@ -61,7 +61,7 @@ export const NotesHeader = ({
         ) : null}
 
         <NoteButton disabled={isDeleting} onClick={onCreate} variant="primary">
-          New note
+          Create new
         </NoteButton>
       </div>
     </div>

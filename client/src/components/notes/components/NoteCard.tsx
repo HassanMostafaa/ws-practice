@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from "react";
 import type { INote } from "../utils/types";
 import { NoteButton } from "./NoteButton";
 import { NoteCheckbox } from "./NoteCheckbox";
@@ -6,6 +7,7 @@ type NoteCardProps = {
   isSelected: boolean;
   note: INote;
   onEdit: (noteId: number) => void;
+  onOpenDetails: (noteId: number) => void;
   onToggleSelected: (noteId: number) => void;
 };
 
@@ -25,13 +27,25 @@ export const NoteCard = ({
   isSelected,
   note,
   onEdit,
+  onOpenDetails,
   onToggleSelected,
 }: NoteCardProps) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    onOpenDetails(note.id);
+  };
+
   return (
     <article
-      className={`rounded-lg border bg-black/30 p-4 ${
+      className={`rounded-lg border relative bg-black/30 p-3 text-left transition hover:border-white/40 ${
         isSelected ? "border-cyan-300/60" : "border-white/20"
       }`}
+      onClick={() => onOpenDetails(note.id)}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
@@ -43,7 +57,11 @@ export const NoteCard = ({
           </h2>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div
+          className="flex  gap-2"
+          onClick={(event) => event.stopPropagation()}
+          onKeyDown={(event) => event.stopPropagation()}
+        >
           <NoteButton onClick={() => onEdit(note.id)}>Edit</NoteButton>
           <NoteCheckbox
             checked={isSelected}
@@ -53,7 +71,9 @@ export const NoteCard = ({
         </div>
       </div>
 
-      <p className="mt-4 text-sm leading-6 text-white/70">{note.content}</p>
+      <p className="mt-4 line-clamp-2 text-sm leading-6 text-white/70">
+        {note.content}
+      </p>
       <p className="mt-4 text-xs text-white/40">
         Updated {formatNoteDate(note.updated_at)}
       </p>

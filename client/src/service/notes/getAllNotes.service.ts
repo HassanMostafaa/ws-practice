@@ -1,6 +1,6 @@
 import { IPaginatedNotes } from "@/components/notes/utils/types";
 import { ApiResponse } from "@/utils/types";
-import { queryParamsBuilder } from "../helpers";
+import { getEndpointWithProtocol, queryParamsBuilder } from "../helpers";
 
 interface IPaginationProps {
   pageSize?: number;
@@ -12,9 +12,9 @@ export const getAllNotes = async ({
   pageNumber = 1,
 }: IPaginationProps): Promise<ApiResponse<IPaginatedNotes>> => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const endpoint = getEndpointWithProtocol();
 
-    const fullEndpoint = queryParamsBuilder(`http://${baseUrl}/notes`, {
+    const fullEndpoint = queryParamsBuilder(`${endpoint}/notes`, {
       pageNumber,
       pageSize,
     });

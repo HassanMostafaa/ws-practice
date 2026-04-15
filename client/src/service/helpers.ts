@@ -20,3 +20,16 @@ export const queryParamsBuilder = (
 
   return queryString ? `${endpoint}?${queryString}` : endpoint;
 };
+
+export const getEndpointWithProtocol = (): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+  if (!baseUrl) return "";
+
+  const isLocalServer =
+    baseUrl.startsWith("localhost") ||
+    baseUrl.startsWith("127.0.0.1") ||
+    baseUrl.startsWith("0.0.0.0");
+
+  return `${isLocalServer ? "http" : "https"}://${baseUrl}`;
+};

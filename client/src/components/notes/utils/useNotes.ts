@@ -28,9 +28,16 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
     (state) => state.clearSelectedNoteIds,
   );
   const closeDialog = useNotesStore((state) => state.closeDialog);
+  const closeDetailsDialog = useNotesStore(
+    (state) => state.closeDetailsDialog,
+  );
+  const detailsNoteId = useNotesStore((state) => state.detailsNoteId);
   const editNoteId = useNotesStore((state) => state.editNoteId);
   const isDialogOpen = useNotesStore((state) => state.isDialogOpen);
   const openCreateDialog = useNotesStore((state) => state.openCreateDialog);
+  const openDetailsDialog = useNotesStore(
+    (state) => state.openDetailsDialog,
+  );
   const openEditDialog = useNotesStore((state) => state.openEditDialog);
   const pageNumber = useNotesStore((state) => state.pageNumber);
   const pageSize = useNotesStore((state) => state.pageSize);
@@ -41,6 +48,12 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
     (state) => state.toggleSelectedNoteId,
   );
   const notes = paginationData.notes;
+
+  const detailsNote = useMemo(() => {
+    if (!detailsNoteId) return null;
+
+    return notes.filter((note) => note.id === detailsNoteId)[0] ?? null;
+  }, [detailsNoteId, notes]);
 
   const selectedNote = useMemo(() => {
     if (!editNoteId) return null;
@@ -147,6 +160,8 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
 
   return {
     areAllNotesSelected,
+    closeDetailsDialog,
+    detailsNote,
     handleDeleteSelectedNotes,
     handleDeselectAllNotes: clearSelectedNoteIds,
     handlePageChange: loadNotes,
@@ -160,6 +175,7 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
     isLoading,
     notes,
     openCreateDialog,
+    openDetailsDialog,
     openEditDialog,
     pageNumber,
     pageSize,
@@ -168,5 +184,6 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
     selectedNoteCount,
     selectedNoteIds,
     toggleSelectedNoteId,
+    editNoteId,
   };
 };
