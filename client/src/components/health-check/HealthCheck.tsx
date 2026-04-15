@@ -5,7 +5,7 @@ export default async function HealthCheck() {
   const isHealthy = data.status === "success";
 
   return (
-    <section className="flex-1 min-w-75 max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
+    <section className="flex-1  max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/20 px-4 py-3">
         <div>
           <p className="text-xs text-white/60">HTTP protocol</p>

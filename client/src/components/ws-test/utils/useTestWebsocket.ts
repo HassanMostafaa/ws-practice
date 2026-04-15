@@ -7,33 +7,21 @@ import type {
   WebSocketStreamMessage,
 } from "../types";
 
-const validateWebSocketUrl = (url: string) => {
-  try {
-    new URL(url);
-    return url;
-  } catch {
-    return "";
-  }
-};
-
 const getWebSocketUrl = () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
 
   if (!baseUrl) return "";
 
   if (baseUrl.startsWith("ws://") || baseUrl.startsWith("wss://")) {
-    return validateWebSocketUrl(baseUrl);
+    return baseUrl;
   }
 
-  if (baseUrl.startsWith("http://")) {
-    return validateWebSocketUrl(baseUrl.replace("http://", "ws://"));
-  }
+  const isLocalServer =
+    baseUrl.startsWith("localhost") ||
+    baseUrl.startsWith("127.0.0.1") ||
+    baseUrl.startsWith("0.0.0.0");
 
-  if (baseUrl.startsWith("https://")) {
-    return validateWebSocketUrl(baseUrl.replace("https://", "wss://"));
-  }
-
-  return validateWebSocketUrl(`wss://${baseUrl}`);
+  return `${isLocalServer ? "ws" : "wss"}://${baseUrl}`;
 };
 
 const isAtBottom = (element: HTMLDivElement) => {
