@@ -1,4 +1,4 @@
-import type { WebSocket } from "ws";
+import { WebSocket, type WebSocketServer } from "ws";
 import { send } from "@/websocket/utils/send";
 
 type ChatUserMessage = {
@@ -28,12 +28,19 @@ const censorBadWords = (message: string) => {
 };
 
 export const chatUserHandler = (
+  wss: WebSocketServer,
   socket: WebSocket,
   payload: ChatUserMessage,
 ) => {
-  // echo back to the same client
-  send(socket, {
-    type: "chat-user",
-    message: censorBadWords(payload.message),
+  const resolvedMessage = censorBadWords(payload.message);
+
+  // echo back to all connections
+  wss.clients.forEach((client) => {
+    if (client.readyState !== WebSocket.OPEN) return;
+
+    send(client, {
+      type: "chat-user",
+      message: resolvedMessage,
+    });
   });
 };

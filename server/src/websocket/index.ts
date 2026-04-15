@@ -23,7 +23,7 @@ export const initWebSocket = (server: HttpServer) => {
       const resolvedPayload =
         typeof payload === "string" ? payload : payload.toString();
 
-      messageRouter(socket, resolvedPayload);
+      messageRouter(wss, socket, resolvedPayload);
     });
 
     socket.on("close", () => {
