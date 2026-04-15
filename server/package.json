@@ -15,9 +15,9 @@
     "build": "tsc && tsc-alias",
     "start": "node dist/index.js",
     "dev:watch": "tsx watch src/index.ts",
-    "db:seed": "psql -d first_db -f db/seed/index.sql",
-    "db:schema": "psql -d first_db -f db/schema/index.sql",
-    "db:reset": "psql -d first_db -c \"DROP SCHEMA public CASCADE; CREATE SCHEMA public;\" && psql -d first_db -f db/schema/index.sql && psql -d first_db -f db/seed/index.sql"
+    "db:schema": "dotenv -e .env -- psql \"$DATABASE_URL\" -f db/schema/index.sql",
+    "db:seed": "dotenv -e .env -- psql \"$DATABASE_URL\" -f db/seed/index.sql",
+    "db:reset": "dotenv -e .env -- sh -c 'psql \"$DATABASE_URL\" -c \"DROP SCHEMA public CASCADE; CREATE SCHEMA public;\" && psql \"$DATABASE_URL\" -f db/schema/index.sql && psql \"$DATABASE_URL\" -f db/seed/index.sql'"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
@@ -25,6 +25,7 @@
     "@types/node": "^25.5.0",
     "@types/pg": "^8.20.0",
     "@types/ws": "^8.18.1",
+    "dotenv-cli": "^11.0.0",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
