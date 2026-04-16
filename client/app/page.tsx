@@ -3,6 +3,8 @@ import { ProjectHeader } from "@/components/project-header/ProjectHeader";
 import { ServerLocation } from "@/components/server-location/ServerLocation";
 import { WSController } from "@/components/ws-controller/WSController";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <main className="container mx-auto py-10 space-y-10 max-md:px-4">
