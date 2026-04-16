@@ -30,7 +30,7 @@ export const WebSocketTest = () => {
   const messageItems = useWebSocketContentSwitcher(messages);
 
   return (
-    <section className="w-full  max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
+    <section className="w-full  max-w-xl  rounded-lg border border-white/25 bg-black/30">
       <WebSocketWindowHeader
         displayName={displayName}
         draftDisplayName={draftDisplayName}

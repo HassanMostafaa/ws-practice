@@ -1,6 +1,8 @@
 import type { FormEvent } from "react";
 import type { WebSocketConnectionStatus } from "../types";
 
+import { MyEmojiPicker } from "./MyEmojiPicker";
+
 type WebSocketComposerProps = {
   canSend: boolean;
   connectionStatus: WebSocketConnectionStatus;
@@ -33,14 +35,22 @@ export const WebSocketComposer = ({
       className="flex flex-col gap-2 border-t border-white/20 p-4 sm:flex-row"
       onSubmit={handleSubmit}
     >
-      <input
-        className="min-h-10 flex-1 rounded-lg border border-white/25 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/40 disabled:cursor-not-allowed disabled:opacity-60"
-        disabled={connectionStatus !== "connected"}
-        onChange={(event) => onDraftMessageChange(event.target.value)}
-        placeholder={inputPlaceholder[connectionStatus]}
-        type="text"
-        value={draftMessage}
-      />
+      <div className="relative w-full">
+        <input
+          className="min-h-10 w-full flex-1 rounded-lg border border-white/10 bg-transparent px-3 py-2 pe-10 text-sm text-white placeholder:text-white/40 disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={connectionStatus !== "connected"}
+          onChange={(event) => onDraftMessageChange(event.target.value)}
+          placeholder={inputPlaceholder[connectionStatus]}
+          type="text"
+          autoFocus
+          value={draftMessage}
+        />
+
+        <MyEmojiPicker
+          onDraftMessageChange={onDraftMessageChange}
+          draftMessage={draftMessage}
+        />
+      </div>
       <button
         className="min-h-10 rounded-lg border border-white/25 px-4 py-2 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50 enabled:cursor-pointer enabled:active:opacity-70"
         disabled={!canSend}
