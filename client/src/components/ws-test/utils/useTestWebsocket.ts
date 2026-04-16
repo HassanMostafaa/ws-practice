@@ -42,6 +42,7 @@ export const useTestWebsocket = () => {
   const [draftDisplayName, setDraftDisplayName] = useState("");
   const [draftMessage, setDraftMessage] = useState("");
   const [messages, setMessages] = useState<WebSocketStreamMessage[]>([]);
+  const [connectionCount, setConnectionCount] = useState<number | null>(null);
   const [statusMessage, setStatusMessage] = useState(() =>
     endpoint ? "Connecting to WebSocket..." : "Missing NEXT_PUBLIC_API_URL.",
   );
@@ -79,6 +80,7 @@ export const useTestWebsocket = () => {
 
       setConnectionStatus("connected");
       setStatusMessage("WebSocket connected.");
+      socket.send(JSON.stringify({ type: "get-connection-count" }));
     };
 
     socket.onmessage = (event) => {
@@ -86,6 +88,15 @@ export const useTestWebsocket = () => {
 
       try {
         const data = JSON.parse(String(event.data)) as WebSocketStreamMessage;
+
+        if (
+          data.type === "connection-count" &&
+          typeof data.connectionCount === "number"
+        ) {
+          setConnectionCount(Math.max(data.connectionCount - 1, 0));
+          return;
+        }
+
         setMessages((currentMessages) => [...currentMessages, data]);
       } catch {
         setStatusMessage(String(event.data));
@@ -105,6 +116,7 @@ export const useTestWebsocket = () => {
       if (!isActive || hasConnectionError) return;
 
       setConnectionStatus("closed");
+      setConnectionCount(null);
       setStatusMessage("WebSocket disconnected.");
     };
 
@@ -151,6 +163,7 @@ export const useTestWebsocket = () => {
   return {
     canSend: connectionStatus === "connected" && draftMessage.trim().length > 0,
     connectionStatus,
+    connectionCount,
     displayName,
     draftDisplayName,
     draftMessage,

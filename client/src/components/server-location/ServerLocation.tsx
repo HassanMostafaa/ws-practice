@@ -1,14 +1,19 @@
 import { getServerLocation } from "@/service/server-location.service";
 
+import { ServerHint } from "./hint/ServerHint";
+
 export const ServerLocation = async () => {
   const { data, message, status } = await getServerLocation();
   const hasLocation = status === "success" && Boolean(data?.location);
 
   return (
-    <section className="flex-1  max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
+    <section className="flex-1  max-w-xl  rounded-lg border border-white/25 bg-black/30">
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/20 px-4 py-3">
         <div>
-          <p className="text-xs text-white/60">API origin</p>
+          <p className="text-xs text-white/60 flex gap-1 items-center">
+            <ServerHint />
+            API origin
+          </p>
           <h2 className="text-base font-semibold text-white">
             Server location
           </h2>
@@ -34,7 +39,7 @@ export const ServerLocation = async () => {
         role={hasLocation ? "status" : "alert"}
       >
         <p className="text-xs font-semibold uppercase">Location</p>
-        <p className="mt-1 break-words">
+        <p className="mt-1 wrap-break-word">
           {data?.location || message || "Unknown location."}
         </p>
       </div>

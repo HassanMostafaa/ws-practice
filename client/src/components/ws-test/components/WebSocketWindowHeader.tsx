@@ -1,12 +1,13 @@
 import type { FormEvent } from "react";
 import type { WebSocketConnectionStatus } from "../types";
 import { useWSStore } from "../store";
+import { FaUsers } from "react-icons/fa";
 
 type WebSocketWindowHeaderProps = {
   displayName: string;
   draftDisplayName: string;
   endpoint: string;
-  messageCount: number;
+  connectionCount: number | null;
   onDisplayNameSubmit: () => void;
   onDraftDisplayNameChange: (displayName: string) => void;
   status: WebSocketConnectionStatus;
@@ -27,10 +28,10 @@ const statusClassName: Record<WebSocketConnectionStatus, string> = {
 };
 
 export const WebSocketWindowHeader = ({
+  connectionCount,
   displayName,
   draftDisplayName,
   endpoint,
-  messageCount,
   onDisplayNameSubmit,
   onDraftDisplayNameChange,
   status,
@@ -39,6 +40,12 @@ export const WebSocketWindowHeader = ({
     storedDisplayName: s?.storedDisplayName,
     setStoredDisplayName: s?.setStoredDisplayName,
   }));
+  const onlineLabel =
+    connectionCount === null
+      ? "Loading..."
+      : connectionCount === 0
+        ? "Empty Room"
+        : `${connectionCount + 1} Online`;
 
   const handleDisplayNameSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,8 +65,8 @@ export const WebSocketWindowHeader = ({
 
       <div className="space-y-1 ms-auto">
         <div className="flex flex-wrap items-end gap-1 text-xs text-white/70">
-          <span className="flex-1 rounded-lg border border-white/20 px-2 py-1">
-            {messageCount} messages
+          <span className="flex gap-1 whitespace-nowrap items-center flex-1 rounded-lg  border border-white/20 px-2 py-1">
+            <FaUsers /> {onlineLabel}
           </span>
           <span className="flex flex-1 items-center gap-2 rounded-lg border border-white/20 px-2 py-1">
             <span

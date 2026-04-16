@@ -11,6 +11,7 @@ export type KnownWebSocketMessageType =
   | "chat-user";
 
 export type WebSocketStreamMessage = {
+  connectionCount?: number;
   data?: unknown;
   displayName?: string;
   message?: string;

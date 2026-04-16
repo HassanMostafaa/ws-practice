@@ -8,7 +8,6 @@ import type {
   WebSocketMessageViewModel,
   WebSocketStreamMessage,
 } from "../types";
-import { useTestWebsocket } from "./useTestWebsocket";
 import { useWSStore } from "../store";
 
 const messageConfig = {

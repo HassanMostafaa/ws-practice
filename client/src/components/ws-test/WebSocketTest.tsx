@@ -10,6 +10,7 @@ import { useWebSocketContentSwitcher } from "./utils/useWebSocketContentSwitcher
 export const WebSocketTest = () => {
   const {
     canSend,
+    connectionCount,
     connectionStatus,
     displayName,
     draftDisplayName,
@@ -34,7 +35,7 @@ export const WebSocketTest = () => {
         displayName={displayName}
         draftDisplayName={draftDisplayName}
         endpoint={endpoint}
-        messageCount={messageItems.length}
+        connectionCount={connectionCount}
         onDisplayNameSubmit={submitDisplayName}
         onDraftDisplayNameChange={setDraftDisplayName}
         status={connectionStatus}
