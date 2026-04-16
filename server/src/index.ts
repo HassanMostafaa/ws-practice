@@ -17,7 +17,7 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:3000",
   "http://127.0.0.1:3000",
-  "ws-practice.vercel.app",
+  "https://ws-practice.vercel.app/",
 ];
 app.use(
   cors({
