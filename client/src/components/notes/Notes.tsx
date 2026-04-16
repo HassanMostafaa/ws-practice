@@ -56,20 +56,6 @@ export const Notes = ({ serverData }: NotesProps) => {
         selectedNoteCount={selectedNoteCount}
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <NotesPaginationDetails
-          pageNumber={pageNumber}
-          pageSize={pageSize}
-          total={paginationData.total}
-        />
-        <Pagination
-          disabled={isLoading || isDeleting}
-          onPageChange={handlePageChange}
-          pageNumber={pageNumber}
-          totalPages={paginationData.totalPages}
-        />
-      </div>
-
       {errorMessage ? (
         <NotesStateMessage
           message={errorMessage}
@@ -99,6 +85,20 @@ export const Notes = ({ serverData }: NotesProps) => {
           ))}
         </div>
       )}
+
+      <div className="flex justify-center gap-4 items-center md:justify-between  flex-col md:flex-row">
+        <NotesPaginationDetails
+          pageNumber={pageNumber}
+          pageSize={pageSize}
+          total={paginationData.total}
+        />
+        <Pagination
+          disabled={isLoading || isDeleting}
+          onPageChange={handlePageChange}
+          pageNumber={pageNumber}
+          totalPages={paginationData.totalPages}
+        />
+      </div>
 
       {detailsNote ? (
         <NoteDetailsModal
