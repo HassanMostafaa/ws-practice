@@ -15,16 +15,19 @@ export type INotes = {
   totalPages: number;
 };
 
-type DeleteNotesBody = {
-  ids: number[];
-};
-
-type DeleteNotesResponse = {
-  deletedNotes: INote[];
-  deletedCount: number;
-};
-
 export type GetAllNotesFromDBParams = {
   pageNumber?: number;
   pageSize?: number;
+};
+
+export type BodyNoteInput = {
+  title?: string;
+  content?: string | null;
+  username?: string;
+};
+
+export type CreateNoteInput = {
+  title: string;
+  username: string;
+  content?: string | null;
 };
