@@ -38,6 +38,8 @@ export const useTestWebsocket = () => {
     useState<WebSocketConnectionStatus>(() =>
       endpoint ? "connecting" : "error",
     );
+  const [displayName, setDisplayName] = useState("");
+  const [draftDisplayName, setDraftDisplayName] = useState("");
   const [draftMessage, setDraftMessage] = useState("");
   const [messages, setMessages] = useState<WebSocketStreamMessage[]>([]);
   const [statusMessage, setStatusMessage] = useState(() =>
@@ -128,25 +130,39 @@ export const useTestWebsocket = () => {
     }
 
     const payload: ChatUserMessage = {
+      displayName: displayName.trim() || "User",
       message,
       type: "chat-user",
     };
 
     socketRef.current.send(JSON.stringify(payload));
     setDraftMessage("");
-  }, [draftMessage]);
+  }, [displayName, draftMessage]);
+
+  const submitDisplayName = useCallback(() => {
+    const nextDisplayName = draftDisplayName.trim();
+
+    if (!nextDisplayName) return;
+
+    setDisplayName(nextDisplayName);
+    setDraftDisplayName("");
+  }, [draftDisplayName]);
 
   return {
     canSend: connectionStatus === "connected" && draftMessage.trim().length > 0,
     connectionStatus,
+    displayName,
+    draftDisplayName,
     draftMessage,
     endpoint,
     isConnecting: connectionStatus === "connecting",
     messages,
     messagesContainerRef,
     sendMessage,
+    setDraftDisplayName,
     setDraftMessage,
     statusMessage,
+    submitDisplayName,
     trackMessagesScroll,
   };
 };

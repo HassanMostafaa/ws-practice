@@ -2,7 +2,7 @@ import type { WebSocket, WebSocketServer } from "ws";
 import { chatUserHandler } from "./chat-user/idnex";
 
 type ClientMessage =
-  | { type: "chat-user"; message: string }
+  | { type: "chat-user"; displayName?: string; message: string }
   | { type: "fetch-post"; id: number }
   | { type: "join-room"; roomId: string };
 

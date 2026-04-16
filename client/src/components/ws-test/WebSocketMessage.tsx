@@ -13,14 +13,21 @@ const toneClassName: Record<WebSocketMessageTone, string> = {
 };
 
 export const WebSocketMessage = ({ message }: WebSocketMessageProps) => {
+
   return (
     <article
       className={`max-w-[85%] rounded-lg border p-3 ${
         message.align === "right" ? "ml-auto" : ""
       } ${toneClassName[message.tone]}`}
     >
-      <p className="text-xs font-semibold uppercase">{message.label}</p>
-      <p className="mt-1 whitespace-pre-wrap wrap-break-word text-sm">
+      {message.displayName ? (
+        <p className="text-xs font-semibold">{message.displayName}</p>
+      ) : null}
+      <p
+        className={`whitespace-pre-wrap wrap-break-word text-sm ${
+          message.displayName ? "mt-1" : ""
+        }`}
+      >
         {message.message || "No message body"}
       </p>
     </article>

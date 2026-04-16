@@ -11,14 +11,18 @@ export const WebSocketTest = () => {
   const {
     canSend,
     connectionStatus,
+    displayName,
+    draftDisplayName,
     draftMessage,
     endpoint,
     isConnecting,
     messages,
     messagesContainerRef,
     sendMessage,
+    setDraftDisplayName,
     setDraftMessage,
     statusMessage,
+    submitDisplayName,
     trackMessagesScroll,
   } = useTestWebsocket();
 
@@ -27,8 +31,12 @@ export const WebSocketTest = () => {
   return (
     <section className="w-full max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
       <WebSocketWindowHeader
+        displayName={displayName}
+        draftDisplayName={draftDisplayName}
         endpoint={endpoint}
         messageCount={messageItems.length}
+        onDisplayNameSubmit={submitDisplayName}
+        onDraftDisplayNameChange={setDraftDisplayName}
         status={connectionStatus}
       />
       <WebSocketStatusBanner

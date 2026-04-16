@@ -3,6 +3,7 @@ import { send } from "@/websocket/utils/send";
 
 type ChatUserMessage = {
   type: "chat-user";
+  displayName?: string;
   message: string;
 };
 
@@ -33,6 +34,7 @@ export const chatUserHandler = (
   payload: ChatUserMessage,
 ) => {
   const resolvedMessage = censorBadWords(payload.message);
+  const displayName = payload.displayName?.trim() || "User";
 
   // echo back to all connections
   wss.clients.forEach((client) => {
@@ -40,6 +42,7 @@ export const chatUserHandler = (
 
     send(client, {
       type: "chat-user",
+      displayName,
       message: resolvedMessage,
     });
   });

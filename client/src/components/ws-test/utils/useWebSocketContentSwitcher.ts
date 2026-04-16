@@ -12,29 +12,24 @@ import type {
 const messageConfig = {
   "chat-agent": {
     align: "left",
-    label: "S - Agent",
     tone: "agent",
   },
   "chat-user": {
     align: "right",
-    label: "C - User",
     tone: "user",
   },
   connection: {
     align: "left",
-    label: "S - Connected",
     tone: "connection",
   },
   notification: {
     align: "left",
-    label: "S - Notification",
     tone: "notification",
   },
 } satisfies Record<
   KnownWebSocketMessageType,
   {
     align: WebSocketMessageAlignment;
-    label: string;
     tone: WebSocketMessageTone;
   }
 >;
@@ -60,12 +55,13 @@ export const useWebSocketContentSwitcher = (
   return useMemo<WebSocketMessageViewModel[]>(() => {
     return messages.map((message, index) => {
       const config = getKnownMessageConfig(message.type);
+      const displayName = message.displayName?.trim() || undefined;
 
       if (!config) {
         return {
           align: "left",
+          displayName,
           id: `unknown-${index}`,
-          label: `S - Unknown type: "${message.type ?? "missing"}"`,
           message: message.message ?? "",
           tone: "unknown",
         };
@@ -73,6 +69,7 @@ export const useWebSocketContentSwitcher = (
 
       return {
         ...config,
+        displayName,
         id: `${message.type}-${index}`,
         message: message.message ?? "",
       };
