@@ -14,7 +14,11 @@ const server = createServer(app);
 // middlewares
 app.use(express.json());
 // CORS
-const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "ws-practice.vercel.app",
+];
 app.use(
   cors({
     origin: (origin, callback) => {

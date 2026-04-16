@@ -56,7 +56,7 @@ export const WebSocketWindowHeader = ({
         </p>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1 ms-auto">
         <div className="flex flex-wrap items-end gap-1 text-xs text-white/70">
           <span className="flex-1 rounded-lg border border-white/20 px-2 py-1">
             {messageCount} messages
