@@ -1,4 +1,4 @@
-import type { WebSocketConnectionStatus } from "./types";
+import type { WebSocketConnectionStatus } from "../types";
 
 type WebSocketStatusBannerProps = {
   message: string;

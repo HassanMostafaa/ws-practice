@@ -8,6 +8,8 @@ import type {
   WebSocketMessageViewModel,
   WebSocketStreamMessage,
 } from "../types";
+import { useTestWebsocket } from "./useTestWebsocket";
+import { useWSStore } from "../store";
 
 const messageConfig = {
   "chat-agent": {
@@ -52,15 +54,19 @@ const getKnownMessageConfig = (type?: string) => {
 export const useWebSocketContentSwitcher = (
   messages: WebSocketStreamMessage[],
 ) => {
+  const { storedDisplayName } = useWSStore((s) => ({
+    storedDisplayName: s?.storedDisplayName,
+  }));
+
   return useMemo<WebSocketMessageViewModel[]>(() => {
     return messages.map((message, index) => {
       const config = getKnownMessageConfig(message.type);
-      const displayName = message.displayName?.trim() || undefined;
+      const serverDisplayName = message.displayName?.trim() || undefined;
 
       if (!config) {
         return {
           align: "left",
-          displayName,
+          displayName: serverDisplayName,
           id: `unknown-${index}`,
           message: message.message ?? "",
           tone: "unknown",
@@ -69,10 +75,11 @@ export const useWebSocketContentSwitcher = (
 
       return {
         ...config,
-        displayName,
+        align: storedDisplayName === serverDisplayName ? "right" : "left",
+        displayName: serverDisplayName,
         id: `${message.type}-${index}`,
         message: message.message ?? "",
       };
     });
-  }, [messages]);
+  }, [messages, storedDisplayName]);
 };

@@ -1,5 +1,6 @@
 import type { FormEvent } from "react";
-import type { WebSocketConnectionStatus } from "./types";
+import type { WebSocketConnectionStatus } from "../types";
+import { useWSStore } from "../store";
 
 type WebSocketWindowHeaderProps = {
   displayName: string;
@@ -34,8 +35,14 @@ export const WebSocketWindowHeader = ({
   onDraftDisplayNameChange,
   status,
 }: WebSocketWindowHeaderProps) => {
+  const { setStoredDisplayName } = useWSStore((s) => ({
+    storedDisplayName: s?.storedDisplayName,
+    setStoredDisplayName: s?.setStoredDisplayName,
+  }));
+
   const handleDisplayNameSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setStoredDisplayName(draftDisplayName);
     onDisplayNameSubmit();
   };
 
@@ -69,6 +76,7 @@ export const WebSocketWindowHeader = ({
               aria-label="Display name"
               className="h-8 w-full rounded-lg border border-white/20 bg-transparent pl-2 pr-14 text-xs text-white placeholder:text-white/40"
               id="ws-user-name"
+              name="username"
               onChange={(event) => onDraftDisplayNameChange(event.target.value)}
               placeholder={displayName || "Display name"}
               type="text"

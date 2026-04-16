@@ -1,9 +1,9 @@
 "use client";
 
-import { WebSocketComposer } from "./WebSocketComposer";
-import { WebSocketMessageList } from "./WebSocketMessageList";
-import { WebSocketStatusBanner } from "./WebSocketStatusBanner";
-import { WebSocketWindowHeader } from "./WebSocketWindowHeader";
+import { WebSocketComposer } from "./components/WebSocketComposer";
+import { WebSocketMessageList } from "./components/WebSocketMessageList";
+import { WebSocketStatusBanner } from "./components/WebSocketStatusBanner";
+import { WebSocketWindowHeader } from "./components/WebSocketWindowHeader";
 import { useTestWebsocket } from "./utils/useTestWebsocket";
 import { useWebSocketContentSwitcher } from "./utils/useWebSocketContentSwitcher";
 
@@ -29,7 +29,7 @@ export const WebSocketTest = () => {
   const messageItems = useWebSocketContentSwitcher(messages);
 
   return (
-    <section className="w-full max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
+    <section className="w-full  max-w-xl overflow-hidden rounded-lg border border-white/25 bg-black/30">
       <WebSocketWindowHeader
         displayName={displayName}
         draftDisplayName={draftDisplayName}
