@@ -9,8 +9,8 @@ export const ServerLocation = async () => {
   return (
     <section className="flex-1  max-w-xl  rounded-lg border border-white/25 bg-black/30">
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/20 px-4 py-3">
-        <div>
-          <p className="text-xs text-white/60 flex gap-1 items-center">
+        <div className="space-y-2">
+          <p className="text-xs text-white/60 flex gap-2 items-center">
             <ServerHint />
             API origin
           </p>

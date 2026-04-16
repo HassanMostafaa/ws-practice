@@ -7,12 +7,11 @@ export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
-    <main className="container mx-auto py-10 space-y-10 max-md:px-4">
+    <main className="container mx-auto flex-1 py-10 space-y-10 max-md:px-4">
       <ProjectHeader />
 
       <div className="flex  flex-col md:flex-row flex-wrap gap-2">
         <HealthCheck />
-
         {/* SERVER LOCATION  */}
         <ServerLocation />
       </div>

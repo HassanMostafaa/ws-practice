@@ -7,9 +7,9 @@ export default async function HealthCheck() {
 
   return (
     <section className="flex-1  max-w-xl flex flex-col  rounded-lg border border-white/25 bg-black/30">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/20 px-4 py-3">
-        <div>
-          <p className="text-xs flex gap-1 items-center text-white/60">
+      <header className="flex flex-wrap  items-center justify-between gap-3 border-b border-white/20 px-4 py-3">
+        <div className="space-y-2">
+          <p className="text-xs flex gap-2 items-center text-white/60">
             <IoShieldOutline size={20} />
             HTTPS protocol
           </p>
