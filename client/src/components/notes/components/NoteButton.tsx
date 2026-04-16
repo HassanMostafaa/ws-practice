@@ -22,7 +22,7 @@ export const NoteButton = ({
 }: NoteButtonProps) => {
   return (
     <button
-      className={`rounded-lg border px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 ${variantClassName[variant]} ${className}`}
+      className={`rounded-lg border px-4 py-2 active:scale-95 hover:scale-102 transition-all text-sm disabled:cursor-not-allowed disabled:opacity-50 ${variantClassName[variant]} ${className}`}
       type="button"
       {...props}
     >

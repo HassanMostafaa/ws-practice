@@ -25,7 +25,7 @@ export const useNotesStore = create<NoteDialogState>((set) => ({
   editNoteId: 0,
   isDialogOpen: false,
   pageNumber: 1,
-  pageSize: 5,
+  pageSize: 10,
   selectedNoteIds: [],
   closeDialog: () => set({ editNoteId: 0, isDialogOpen: false }),
   closeDetailsDialog: () => set({ detailsNoteId: 0 }),

@@ -28,3 +28,17 @@ export type NoteFormValues = {
   title: string;
   username: string;
 };
+
+export type NoteFormError = {
+  input: keyof NoteFormValues | "form";
+  message: string;
+};
+
+export type NoteSubmitResult =
+  | {
+      status: "success";
+    }
+  | {
+      status: "error";
+      errors: NoteFormError[];
+    };

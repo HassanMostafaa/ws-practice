@@ -1,13 +1,46 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { createNote } from "@/service/notes/createNote.service";
 import { deleteNotesByIds } from "@/service/notes/deleteNotesByIds";
 import { getAllNotes } from "@/service/notes/getAllNotes.service";
+import { updateNote } from "@/service/notes/updateNote.service";
 import { useNotesStore } from "../store";
-import type { IPaginatedNotes, NoteFormValues } from "../utils/types";
+import type {
+  IPaginatedNotes,
+  NoteFormError,
+  NoteFormValues,
+  NoteSubmitResult,
+} from "../utils/types";
 
 type UseNotesProps = {
   serverData?: IPaginatedNotes;
+};
+
+const getFormErrorInput = (message: string): NoteFormError["input"] => {
+  const normalizedMessage = message.toLowerCase();
+
+  if (normalizedMessage.includes("title")) return "title";
+  if (normalizedMessage.includes("content")) return "content";
+  if (normalizedMessage.includes("username")) return "username";
+
+  return "form";
+};
+
+const getFormErrorResult = (
+  message = "Failed to save note.",
+): NoteSubmitResult => {
+  const errorMessage = message.trim() || "Failed to save note.";
+
+  return {
+    status: "error",
+    errors: [
+      {
+        input: getFormErrorInput(errorMessage),
+        message: errorMessage,
+      },
+    ],
+  };
 };
 
 export const useNotes = ({ serverData }: UseNotesProps = {}) => {
@@ -19,7 +52,7 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
       serverData ?? {
         notes: [],
         pageNumber: 1,
-        pageSize: 5,
+        pageSize: 10,
         total: 0,
         totalPages: 0,
       },
@@ -28,16 +61,12 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
     (state) => state.clearSelectedNoteIds,
   );
   const closeDialog = useNotesStore((state) => state.closeDialog);
-  const closeDetailsDialog = useNotesStore(
-    (state) => state.closeDetailsDialog,
-  );
+  const closeDetailsDialog = useNotesStore((state) => state.closeDetailsDialog);
   const detailsNoteId = useNotesStore((state) => state.detailsNoteId);
   const editNoteId = useNotesStore((state) => state.editNoteId);
   const isDialogOpen = useNotesStore((state) => state.isDialogOpen);
   const openCreateDialog = useNotesStore((state) => state.openCreateDialog);
-  const openDetailsDialog = useNotesStore(
-    (state) => state.openDetailsDialog,
-  );
+  const openDetailsDialog = useNotesStore((state) => state.openDetailsDialog);
   const openEditDialog = useNotesStore((state) => state.openEditDialog);
   const pageNumber = useNotesStore((state) => state.pageNumber);
   const pageSize = useNotesStore((state) => state.pageSize);
@@ -118,44 +147,44 @@ export const useNotes = ({ serverData }: UseNotesProps = {}) => {
     await loadNotes(nextPageNumber);
   };
 
-  const handleSaveNote = (values: NoteFormValues) => {
-    const updatedAt = new Date().toISOString();
+  const handleSaveNote = async (
+    values: NoteFormValues,
+  ): Promise<NoteSubmitResult> => {
+    setErrorMessage("");
 
     if (editNoteId) {
+      const response = await updateNote({
+        body: values,
+        id: editNoteId,
+      });
+
+      if (response.status === "error" || !response.data) {
+        return getFormErrorResult(response.message);
+      }
+
+      const updatedNote = response.data;
+
       setPaginationData((currentData) => ({
         ...currentData,
         notes: currentData.notes.map((note) => {
           if (note.id !== editNoteId) return note;
 
-          return {
-            ...note,
-            content: values.content,
-            title: values.title,
-            updated_at: updatedAt,
-            username: values.username,
-          };
+          return updatedNote;
         }),
       }));
-    } else {
-      setPaginationData((currentData) => ({
-        ...currentData,
-        notes: [
-          {
-            content: values.content,
-            created_at: updatedAt,
-            id: Date.now(),
-            title: values.title,
-            updated_at: updatedAt,
-            username: values.username,
-          },
-          ...currentData.notes,
-        ].slice(0, pageSize),
-        total: currentData.total + 1,
-        totalPages: Math.ceil((currentData.total + 1) / pageSize),
-      }));
+
+      return { status: "success" };
     }
 
-    closeDialog();
+    const response = await createNote(values);
+
+    if (response.status === "error" || !response.data) {
+      return getFormErrorResult(response.message);
+    }
+
+    await loadNotes(1);
+
+    return { status: "success" };
   };
 
   return {

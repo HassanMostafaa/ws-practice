@@ -36,13 +36,13 @@ export const NoteDetailsModal = ({
             {note.username} - Created {formatNoteDate(note.created_at)} -
             Updated {formatNoteDate(note.updated_at)}
           </p>
-          <h2 className="mt-1 break-words text-xl font-semibold text-white">
+          <h2 className="mt-1 wrap-break-word text-xl font-semibold text-white">
             {note.title}
           </h2>
         </header>
 
         <div className="max-h-[60vh] overflow-y-auto p-4">
-          <p className="whitespace-pre-wrap break-words text-sm leading-6 text-white/75">
+          <p className="whitespace-pre-wrap wrap-break-word text-sm leading-6 text-white/75">
             {note.content}
           </p>
         </div>

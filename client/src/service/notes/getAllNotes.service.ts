@@ -8,7 +8,7 @@ interface IPaginationProps {
 }
 
 export const getAllNotes = async ({
-  pageSize = 5,
+  pageSize = 10,
   pageNumber = 1,
 }: IPaginationProps): Promise<ApiResponse<IPaginatedNotes>> => {
   try {

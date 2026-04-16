@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/notes", label: "Notes" },
+  { href: "/", label: "HOME" },
+  { href: "/notes", label: "NOTES" },
 ];
 
 export const Header = () => {
