@@ -1,7 +1,7 @@
 "use client";
 
 import { EmojiPicker } from "frimousse";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaRegSmileBeam } from "react-icons/fa";
 
 export function MyEmojiPicker({
@@ -12,9 +12,50 @@ export function MyEmojiPicker({
   onDraftMessageChange: (message: string) => void;
 }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const pickerWrapperRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!showEmojiPicker) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!(event.target instanceof Node)) {
+        return;
+      }
+
+      if (!pickerWrapperRef.current?.contains(event.target)) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [showEmojiPicker]);
+
   return (
-    <span className="hidden  md:flex   justify-center items-center absolute top-1/2 -translate-y-1/2 right-4 ">
-      <button type="button" onClick={() => setShowEmojiPicker((prev) => !prev)}>
+    <span
+      ref={pickerWrapperRef}
+      className="absolute top-1/2 right-4 hidden -translate-y-1/2 items-center justify-center md:flex"
+    >
+      <button
+        type="button"
+        aria-expanded={showEmojiPicker}
+        aria-label={showEmojiPicker ? "Close emoji picker" : "Open emoji picker"}
+        className="flex size-8 items-center justify-center rounded-md border border-white/10 bg-white/10 text-white/70 transition-colors hover:border-white/20 hover:bg-white/20 hover:text-white active:bg-white/30 aria-expanded:border-white/25 aria-expanded:bg-white/20 aria-expanded:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+        onClick={() => setShowEmojiPicker((prev) => !prev)}
+      >
         <FaRegSmileBeam size={20} />
       </button>
       {showEmojiPicker && (
