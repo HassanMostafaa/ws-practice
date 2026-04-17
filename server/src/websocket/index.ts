@@ -4,31 +4,14 @@ import { send } from "./utils/send";
 import { notificationMessage } from "./events/agentNotification";
 import { agentGreeting } from "./events/agentGreeting";
 import { messageRouter } from "./handlers/messagesRouter";
+import { broadcastConnectionCount, getConnectionCount } from "./utils/helpers";
+import { createRoom, rooms } from "./state/rooms";
 
 export const initWebSocket = (server: HttpServer) => {
   const wss = new WebSocketServer({ server });
   console.log("WebSocket server initialized");
 
-  const getConnectionCount = () => {
-    return Array.from(wss.clients).filter(
-      (client) => client.readyState === WebSocket.OPEN,
-    ).length;
-  };
-
-  const sendConnectionCount = (socket: WebSocket) => {
-    send(socket, {
-      type: "connection-count",
-      connectionCount: getConnectionCount(),
-    });
-  };
-
-  const broadcastConnectionCount = () => {
-    wss.clients.forEach((client) => {
-      if (client.readyState !== WebSocket.OPEN) return;
-
-      sendConnectionCount(client);
-    });
-  };
+  // console.log(rooms);
 
   wss.on("connection", (socket: WebSocket) => {
     send(socket, {
@@ -36,7 +19,7 @@ export const initWebSocket = (server: HttpServer) => {
       message: "Welcome client 👋",
     });
 
-    broadcastConnectionCount();
+    broadcastConnectionCount(wss);
 
     agentGreeting(socket, 3000);
 
@@ -46,10 +29,23 @@ export const initWebSocket = (server: HttpServer) => {
       const resolvedPayload =
         typeof payload === "string" ? payload : payload.toString();
 
-      const data = JSON.parse(resolvedPayload);
+      let data;
+
+      try {
+        data = JSON.parse(resolvedPayload);
+      } catch {
+        send(socket, {
+          type: "error",
+          message: "Invalid JSON payload",
+        });
+        return;
+      }
 
       if (data?.type === "get-connection-count") {
-        sendConnectionCount(socket);
+        send(socket, {
+          type: "connection-count",
+          connectionCount: getConnectionCount(wss),
+        });
         return;
       }
 
@@ -58,7 +54,7 @@ export const initWebSocket = (server: HttpServer) => {
 
     socket.on("close", () => {
       console.log("Client disconnected");
-      broadcastConnectionCount();
+      broadcastConnectionCount(wss);
     });
   });
 };
