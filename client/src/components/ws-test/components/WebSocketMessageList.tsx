@@ -34,7 +34,7 @@ export const WebSocketMessageList = ({
   return (
     <div
       ref={containerRef}
-      className="max-h-[44vh] min-h-56 space-y-3 overflow-y-auto px-4 pb-4"
+      className="max-h-75 min-h-56 space-y-3 overflow-y-auto px-4 pb-4"
       onScroll={onScroll}
     >
       {isConnecting && messages.length === 0 ? (

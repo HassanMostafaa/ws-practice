@@ -47,7 +47,7 @@ export function MyEmojiPicker({
   return (
     <span
       ref={pickerWrapperRef}
-      className="absolute top-1/2 right-1 hidden -translate-y-1/2 items-center justify-center md:flex"
+      className="absolute top-1/2 right-1 -translate-y-1/2 items-center justify-center flex"
     >
       <button
         type="button"
@@ -66,7 +66,7 @@ export function MyEmojiPicker({
           onEmojiSelect={({ emoji }) => {
             onDraftMessageChange(draftMessage + emoji);
           }}
-          className="isolate absolute bottom-8 border border-white/10 shadow-lg rounded-xl! right-0 z-10 flex h-92 w-fit flex-col bg-white dark:bg-neutral-900"
+          className="isolate absolute bottom-10 border border-white/10 shadow-lg rounded-xl! right-0 md:-left-45 z-10 flex h-92 w-fit flex-col bg-white dark:bg-neutral-900"
         >
           <EmojiPicker.Search className="z-10 mx-2 mt-2 appearance-none rounded-md bg-neutral-100 px-2.5 py-2 text-sm dark:bg-neutral-800" />
           <EmojiPicker.Viewport className="relative flex-1 outline-hidden">

@@ -6,7 +6,7 @@ export default async function HealthCheck() {
   const isHealthy = data.status === "success";
 
   return (
-    <section className="flex-1  max-w-xl flex flex-col  rounded-lg border border-white/25 bg-black/30">
+    <section className="flex-1  max-w-2xl flex flex-col  rounded-lg border border-white/25 bg-black/30">
       <header className="flex flex-wrap  items-center justify-between gap-3 border-b border-white/20 px-4 py-3">
         <div className="space-y-2">
           <p className="text-xs flex gap-2 items-center text-white/60">

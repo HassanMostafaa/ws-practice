@@ -42,11 +42,24 @@ export const ServerHint = () => {
 
       <div
         className={[
-          "absolute left-1/2 top-full z-50 mt-3 w-64 -translate-x-1/2 rounded-2xl border border-white/15 bg-background p-3 shadow-xl transition-all duration-200",
-          "before:absolute before:left-1/2 before:top-0 before:size-3 before:-translate-x-1/2 before:-translate-y-1/2 before:rotate-45 before:border-l before:border-t before:border-white/15 before:bg-background",
+          "absolute top-full z-50 mt-3 rounded-2xl border border-white/15 bg-background p-3 shadow-xl transition-all duration-200",
+          "w-64 max-w-[calc(100vw-1rem)]",
+
+          // ✅ mobile: anchor left, grow right
+          "-left-6",
+
+          // ✅ desktop: center
+          "md:left-1/2 md:-translate-x-1/2",
+
+          // arrow
+          "before:absolute before:top-0 before:size-3 before:-translate-y-1/2 before:rotate-45 before:border-l before:border-t before:border-white/15 before:bg-background",
+
+          // ✅ arrow position follows anchor
+          "before:left-7 md:before:left-1/2 md:before:-translate-x-1/2",
+
           isOpen
             ? "visible translate-y-0 opacity-100"
-            : "invisible -translate-y-1 opacity-0 pointer-events-none",
+            : "pointer-events-none invisible -translate-y-1 opacity-0",
         ].join(" ")}
         role="tooltip"
       >
