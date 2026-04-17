@@ -11,8 +11,6 @@ export const initWebSocket = (server: HttpServer) => {
   const wss = new WebSocketServer({ server });
   console.log("WebSocket server initialized");
 
-  // console.log(rooms);
-
   wss.on("connection", (socket: WebSocket) => {
     send(socket, {
       type: "connection",

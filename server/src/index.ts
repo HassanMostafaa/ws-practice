@@ -2,8 +2,9 @@ import "dotenv/config";
 import { createServer } from "node:http";
 import express from "express";
 import { registerRoutes } from "./http/routes";
-import { initWebSocket } from "./websocket";
+import { initWebSocket } from "./websocket/ws";
 import cors from "cors";
+import { initSocketIO } from "./websocket/socketio";
 
 const PORT = process.env.PORT || 3002;
 
@@ -37,6 +38,9 @@ registerRoutes(app);
 
 // websocket (attach to same server)
 initWebSocket(server);
+
+// Socketio attached to same server and passing my cors configs
+initSocketIO(server, allowedOrigins);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

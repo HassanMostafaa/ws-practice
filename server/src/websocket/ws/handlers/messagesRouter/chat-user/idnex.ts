@@ -1,5 +1,5 @@
 import { WebSocket, type WebSocketServer } from "ws";
-import { send } from "@/websocket/utils/send";
+import { send } from "@/websocket/ws/utils/send";
 
 type ChatUserMessage = {
   type: "chat-user";
